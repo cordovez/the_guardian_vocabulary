@@ -1,8 +1,8 @@
 {
   "folders": [
-	{
-		"path": "../new_guardian/guardianscraper"
-	}
-],
+    {
+      "path": "../the_guardian_vocabulary/guardianscraper"
+    }
+  ],
   "settings": {}
 }

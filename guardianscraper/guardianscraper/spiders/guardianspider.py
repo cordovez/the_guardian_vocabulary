@@ -23,7 +23,5 @@ class MyCrawlSpider(CrawlSpider):
             "title": response.css("h1::text").get(),
             "author": response.css(".dcr-1uv1bpy a::text").get(),
             "article" : re.sub(r'<.*?>', '', article_response),
+            "url" : url,
             }
-
-
-

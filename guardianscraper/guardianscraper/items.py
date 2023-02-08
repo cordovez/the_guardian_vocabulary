@@ -6,7 +6,10 @@
 import scrapy
 
 
-class GuardianscraperItem(scrapy.Item):
+class OpinionItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    date = scrapy.Field()
+    title = scrapy.Field()
+    author = scrapy.Field()
+    article = scrapy.Field()
+    url = scrapy.Field()
