@@ -1,27 +1,30 @@
 
+import scrapy
 import re
-import codecs
 
-from scrapy.spiders import CrawlSpider, Rule
-from scrapy.linkextractors import LinkExtractor
-
-class MyCrawlSpider(CrawlSpider):
+class MyCrawlSpider(scrapy.Spider):
     name = "opinioncrawler"
     allowed_domains = ["theguardian.com"]
-    start_urls = ["https://www.theguardian.com/uk/commentisfree"]
+    start_urls = ["https://www.theguardian.com/uk/commentisfree",]
 
-    rules = (
-         Rule(LinkExtractor(allow="commentisfree/2023/"), callback = "parse_item"),
-    )
 
-    def parse_item(self, response):
-        article_response = response.css("#maincontent").get()
-        url = response.url
+    def parse(self, response):
+        opinions = response.css('#opinion .fc-slice-wrapper  li.l-row__item .fc-item .fc-item__container')
 
-        yield {
-            "date" : url[42:53],
-            "title": response.css("h1::text").get(),
-            "author": response.css(".dcr-1uv1bpy a::text").get(),
-            "article" : re.sub(r'<.*?>', '', article_response),
-            "url" : url,
-            }
+        
+        for opinion in opinions:
+            title = opinion.css('span.js-headline-text::text').get()
+            url = opinion.css('a.fc-item__link::attr(href)').get()
+            byline = opinion.css(' .fc-item__byline::text').get().strip()
+            date_regex = r"\d{4}/\w{3}/\d{2}"
+            match = re.search(date_regex, url)
+            if match:
+                date = match.group(0)
+
+            yield {
+                "title" : title,
+                "byline" : byline,
+                "url" : url,
+                "date" : date
+                }
+        
