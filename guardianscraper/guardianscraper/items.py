@@ -8,8 +8,9 @@ import scrapy
 
 class OpinionItem(scrapy.Item):
     # define the fields for your item here like:
-    date = scrapy.Field()
     title = scrapy.Field()
-    author = scrapy.Field()
-    article = scrapy.Field()
+    byline = scrapy.Field()
     url = scrapy.Field()
+    date = scrapy.Field()
+    text = scrapy.Field()
+
