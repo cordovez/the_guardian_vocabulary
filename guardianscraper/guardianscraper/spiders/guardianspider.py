@@ -4,16 +4,16 @@ import re
 from scrapy.selector import Selector
 from scrapy.http import HtmlResponse
 
+
 class MyCrawlSpider(scrapy.Spider):
     name = "opinioncrawler"
     allowed_domains = ["theguardian.com"]
     start_urls = ["https://www.theguardian.com/uk/commentisfree",]
 
-
     def parse(self, response):
-        opinions = response.css('#opinion .fc-slice-wrapper  li.l-row__item .fc-item .fc-item__container')
+        opinions = response.css(
+            '#opinion .fc-slice-wrapper  li.l-row__item .fc-item .fc-item__container')
 
-        
         for opinion in opinions:
             title = opinion.css('span.js-headline-text::text').get()
             url = opinion.css(' ::attr(href)').get()
@@ -30,7 +30,7 @@ class MyCrawlSpider(scrapy.Spider):
                 "date": date,
             })
 
-    # follow url to get article text 
+    # follow url to get article text
     def parse_text(self, response):
         title = response.meta["title"]
         byline = response.meta["byline"]
@@ -38,7 +38,7 @@ class MyCrawlSpider(scrapy.Spider):
         date = response.meta["date"]
 
         # Join all the <p>s
-        html_text = " ".join(response.css('.dcr-1bfjmfh').getall())
+        html_text = "".join(response.css('.dcr-1bfjmfh').getall())
         # remove all html tags
         clean_text = re.sub(r'<[^>]*>', '', html_text)
 
@@ -47,5 +47,5 @@ class MyCrawlSpider(scrapy.Spider):
             "byline": byline,
             "url": url,
             "date": date,
-            "text": clean_text,
+            "text": clean_text.replace('\n', '').replace('\r', ''),
         }
