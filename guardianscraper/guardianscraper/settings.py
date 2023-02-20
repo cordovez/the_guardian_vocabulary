@@ -13,9 +13,16 @@ SPIDER_MODULES = ["guardianscraper.spiders"]
 NEWSPIDER_MODULE = "guardianscraper.spiders"
 
 FEEDS = {
-    'guardian_data.csv': {'format': 'csv'},
-    'guardian_data.json': {'format': 'json'}
+    'guardian_data.csv': {
+        'format': 'csv',
+        'overwrite': True
+    },
+    'guardian_data.json': {
+        'format': 'json',
+        'overwrite': True
+    }
 }
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "guardianscraper (+http://www.yourdomain.com)"

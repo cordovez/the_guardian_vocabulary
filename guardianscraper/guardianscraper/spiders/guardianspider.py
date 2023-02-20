@@ -1,3 +1,4 @@
+from datetime import datetime
 
 import scrapy
 import re
@@ -46,6 +47,12 @@ class MyCrawlSpider(scrapy.Spider):
             "title": title,
             "byline": byline,
             "url": url,
-            "date": date,
+            "date": string_to_datetime(date),
             "text": clean_text.replace('\n', '').replace('\r', ''),
         }
+
+
+def string_to_datetime(date_string):
+    date_format = "%Y/%b/%d"
+    date_object = datetime.strptime(date_string, date_format)
+    return date_object
